@@ -17,6 +17,7 @@ public class WifiP2PActivity extends AppCompatActivity {
             Manifest.permission.CHANGE_NETWORK_STATE,
             Manifest.permission.INTERNET,
             Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     private Button scanBtn;

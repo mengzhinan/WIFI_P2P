@@ -35,6 +35,9 @@ public class WifiP2PBroadCastReceiver extends BroadcastReceiver {
         }
         String action = intent.getAction();
 
+        Log.v("dkp2ptest", "P2PReceiver.onReceive. action = " + action);
+        Toast.makeText(context, "P2PReceiver onReceive  action = " + action, Toast.LENGTH_SHORT).show();
+
         if (WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION.equals(action)) {
             // Check to see if Wi-Fi is enabled and notify appropriate activity
             // 检查 Wi-Fi P2P 是否已启用
