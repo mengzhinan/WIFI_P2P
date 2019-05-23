@@ -33,6 +33,7 @@ public class WifiP2PActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 WifiP2PHelper.getInstance(WifiP2PActivity.this).discover();
+                WifiP2PHelper.getInstance(WifiP2PActivity.this).createGroup();
             }
         });
     }

@@ -4,9 +4,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.net.wifi.WpsInfo;
+import android.net.wifi.p2p.WifiP2pConfig;
+import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Build;
 import android.os.Looper;
+import android.util.Log;
 
 /**
  * author: duke
@@ -52,6 +56,31 @@ public class WifiP2PHelper {
 
     public boolean isSupportWifiP2P() {
         return applicationContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_WIFI_DIRECT);
+    }
+
+    public void createGroup() {
+        mManager.createGroup(mChannel, wifiP2PActionListener);
+    }
+
+    public void removeGroup() {
+        mManager.removeGroup(mChannel, wifiP2PActionListener);
+    }
+
+    public void connect(WifiP2pDevice wifiP2pDevice) {
+        WifiP2pConfig config = new WifiP2pConfig();
+        if (config.deviceAddress != null && wifiP2pDevice != null) {
+            config.deviceAddress = wifiP2pDevice.deviceAddress;
+            config.wps.setup = WpsInfo.PBC;
+            mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
+                @Override
+                public void onSuccess() {
+                }
+
+                @Override
+                public void onFailure(int reason) {
+                }
+            });
+        }
     }
 
     public void discover() {
