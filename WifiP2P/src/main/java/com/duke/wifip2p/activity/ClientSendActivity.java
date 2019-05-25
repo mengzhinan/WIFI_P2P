@@ -8,18 +8,23 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.duke.dfileselector.activity.DefaultSelectorActivity;
+import com.duke.dfileselector.util.FileSelectorUtils;
 import com.duke.wifip2p.R;
 import com.duke.wifip2p.p2phelper.WifiP2PHelper;
 import com.duke.wifip2p.p2phelper.WifiP2PListener;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class ClientSendActivity extends BaseActivity {
+    public static final String TAG = ClientSendActivity.class.getSimpleName();
+
     private Button btnScanDevice;
     private Button btnSendFile;
 
@@ -53,8 +58,25 @@ public class ClientSendActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && requestCode == DefaultSelectorActivity.FILE_SELECT_REQUEST_CODE) {
-
+            ArrayList<String> list = DefaultSelectorActivity.getDataFromIntent(data);
+            printData(list);
         }
+    }
+
+    private void printData(ArrayList<String> list) {
+        if (FileSelectorUtils.isEmpty(list)) {
+            return;
+        }
+        int size = list.size();
+        Log.v(TAG, "获取到数据-开始 size = " + size);
+        StringBuffer stringBuffer = new StringBuffer("选中的文件：\r\n");
+        for (int i = 0; i < size; i++) {
+            Log.v(TAG, (i + 1) + " = " + list.get(i));
+            stringBuffer.append(list.get(i));
+            stringBuffer.append("\r\n");
+        }
+        Toast.makeText(this, stringBuffer.toString(), Toast.LENGTH_SHORT).show();
+        Log.v(TAG, "获取到数据-结束");
     }
 
     @Override
