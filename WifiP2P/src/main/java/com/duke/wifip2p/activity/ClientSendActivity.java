@@ -7,6 +7,7 @@ import android.net.wifi.p2p.WifiP2pInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.duke.dfileselector.activity.DefaultSelectorActivity;
 import com.duke.dfileselector.util.FileSelectorUtils;
+import com.duke.wifip2p.DeviceAdapter;
 import com.duke.wifip2p.R;
 import com.duke.wifip2p.p2phelper.WifiP2PHelper;
 import com.duke.wifip2p.p2phelper.WifiP2PListener;
@@ -29,6 +31,8 @@ public class ClientSendActivity extends BaseActivity {
     private Button btnSendFile;
 
     private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
+    private DeviceAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,18 @@ public class ClientSendActivity extends BaseActivity {
         btnScanDevice = findViewById(R.id.btn_scan_device);
         btnSendFile = findViewById(R.id.btn_send_file);
         recyclerView = findViewById(R.id.recycler_view);
+        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        adapter = new DeviceAdapter();
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(adapter);
+
+
+        adapter.setOnItemClickListener(new DeviceAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(WifiP2pDevice wifiP2pDevice) {
+                WifiP2PHelper.getInstance(ClientSendActivity.this).connectPeer(wifiP2pDevice, mWifiP2PListener);
+            }
+        });
 
         btnScanDevice.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,6 +138,7 @@ public class ClientSendActivity extends BaseActivity {
         @Override
         public void onPeersAvailable(@NonNull Collection<WifiP2pDevice> wifiP2pDeviceList) {
             toast("发现设备数量 " + wifiP2pDeviceList.size());
+            adapter.setWifiP2pDeviceList(wifiP2pDeviceList);
         }
 
         @Override

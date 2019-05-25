@@ -10,43 +10,51 @@ import android.widget.TextView;
 
 import com.duke.wifip2p.p2phelper.WifiP2PHelper;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceHolder> {
 
-    private List<WifiP2pDevice> wifiP2pDeviceList;
-
-    private OnClickListener clickListener;
-
-    public interface OnClickListener {
-        void onItemClick(int position);
+    public interface OnItemClickListener {
+        void onItemClick(WifiP2pDevice wifiP2pDevice);
     }
 
-    public DeviceAdapter(List<WifiP2pDevice> wifiP2pDeviceList) {
-        this.wifiP2pDeviceList = wifiP2pDeviceList;
+    private OnItemClickListener clickListener;
+    private List<WifiP2pDevice> wifiP2pDeviceList = new ArrayList<>();
+
+    public void setWifiP2pDeviceList(Collection<WifiP2pDevice> wifiP2pDeviceList) {
+        this.wifiP2pDeviceList.clear();
+        if (wifiP2pDeviceList != null && wifiP2pDeviceList.size() > 0) {
+            this.wifiP2pDeviceList.addAll(wifiP2pDeviceList);
+        }
+        notifyDataSetChanged();
+    }
+
+    public void setOnItemClickListener(OnItemClickListener clickListener) {
+        this.clickListener = clickListener;
     }
 
     @NonNull
     @Override
     public DeviceHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_device, parent, false);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (clickListener != null) {
-                    clickListener.onItemClick((Integer) v.getTag());
-                }
-            }
-        });
         return new DeviceHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final DeviceHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final DeviceHolder holder, final int position) {
         holder.tv_deviceName.setText(wifiP2pDeviceList.get(position).deviceName);
         holder.tv_deviceAddress.setText(wifiP2pDeviceList.get(position).deviceAddress);
         holder.tv_deviceDetails.setText(WifiP2PHelper.getInstance(holder.tv_deviceDetails.getContext()).getDeviceStatus(wifiP2pDeviceList.get(position).status));
-        holder.itemView.setTag(position);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (clickListener != null) {
+                    clickListener.onItemClick(wifiP2pDeviceList.get(position));
+                }
+            }
+        });
     }
 
     @Override
@@ -54,12 +62,7 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceHold
         return wifiP2pDeviceList.size();
     }
 
-    public void setClickListener(OnClickListener clickListener) {
-        this.clickListener = clickListener;
-    }
-
     static class DeviceHolder extends RecyclerView.ViewHolder {
-
         private TextView tv_deviceName;
         private TextView tv_deviceAddress;
         private TextView tv_deviceDetails;
@@ -70,7 +73,5 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceHold
             tv_deviceAddress = itemView.findViewById(R.id.tv_deviceAddress);
             tv_deviceDetails = itemView.findViewById(R.id.tv_deviceDetails);
         }
-
     }
-
 }
