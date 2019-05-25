@@ -1,1 +1,1 @@
-include ':app',':DPermission', ':WifiP2P'
+include ':app',':DPermission', ':WifiP2P', ':DFileSelector'

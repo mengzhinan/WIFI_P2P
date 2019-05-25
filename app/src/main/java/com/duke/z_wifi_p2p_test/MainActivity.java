@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.duke.wifip2p.WifiP2PActivity;
+import com.duke.wifip2p.activity.WifiP2PActivity;
 
 public class MainActivity extends AppCompatActivity {
 

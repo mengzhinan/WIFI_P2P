@@ -4,25 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.WifiP2PActivity">
+    tools:context=".activity.ServerReceiveActivity">
 
     <Button
-        android:id="@+id/btn_server_receive"
+        android:id="@+id/btn_create_group"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="服务端接收文件"
+        android:layout_height="200dp"
+        android:text="创建群组"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/btn_remove_group"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btn_client_send"
+        android:id="@+id/btn_remove_group"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="客户端发送文件"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_height="200dp"
+        android:text="移除群组"
+        app:layout_constraintLeft_toRightOf="@id/btn_create_group"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_server_receive" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

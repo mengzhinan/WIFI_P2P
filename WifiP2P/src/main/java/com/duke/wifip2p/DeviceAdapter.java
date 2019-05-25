@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.duke.wifip2p.p2phelper.WifiP2PHelper;
+
 import java.util.List;
 
 public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceHolder> {
@@ -18,23 +20,6 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceHold
 
     public interface OnClickListener {
         void onItemClick(int position);
-    }
-
-    public String getDeviceStatus(int deviceStatus) {
-        switch (deviceStatus) {
-            case WifiP2pDevice.AVAILABLE:
-                return "可用的";
-            case WifiP2pDevice.INVITED:
-                return "邀请中";
-            case WifiP2pDevice.CONNECTED:
-                return "已连接";
-            case WifiP2pDevice.FAILED:
-                return "失败的";
-            case WifiP2pDevice.UNAVAILABLE:
-                return "不可用的";
-            default:
-                return "未知";
-        }
     }
 
     public DeviceAdapter(List<WifiP2pDevice> wifiP2pDeviceList) {
@@ -60,7 +45,7 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceHold
     public void onBindViewHolder(@NonNull final DeviceHolder holder, int position) {
         holder.tv_deviceName.setText(wifiP2pDeviceList.get(position).deviceName);
         holder.tv_deviceAddress.setText(wifiP2pDeviceList.get(position).deviceAddress);
-        holder.tv_deviceDetails.setText(getDeviceStatus(wifiP2pDeviceList.get(position).status));
+        holder.tv_deviceDetails.setText(WifiP2PHelper.getInstance(holder.tv_deviceDetails.getContext()).getDeviceStatus(wifiP2pDeviceList.get(position).status));
         holder.itemView.setTag(position);
     }
 

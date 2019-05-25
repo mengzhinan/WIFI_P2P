@@ -1,12 +1,14 @@
-package com.duke.wifip2p;
+package com.duke.wifip2p.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
 import com.duke.dpermission.DPermission;
+import com.duke.wifip2p.R;
 
 import java.util.ArrayList;
 
@@ -20,20 +22,27 @@ public class WifiP2PActivity extends AppCompatActivity {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
-    private Button scanBtn;
+    private Button btnServer;
+    private Button btnClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wifi_p2p);
 
-        scanBtn = findViewById(R.id.button_scan);
+        btnServer = findViewById(R.id.btn_server_receive);
+        btnClient = findViewById(R.id.btn_client_send);
 
-        scanBtn.setOnClickListener(new View.OnClickListener() {
+        btnServer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WifiP2PHelper.getInstance(WifiP2PActivity.this).discover();
-                WifiP2PHelper.getInstance(WifiP2PActivity.this).createGroup();
+                startActivity(new Intent(WifiP2PActivity.this, ServerReceiveActivity.class));
+            }
+        });
+        btnClient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(WifiP2PActivity.this, ClientSendActivity.class));
             }
         });
     }
@@ -44,14 +53,8 @@ public class WifiP2PActivity extends AppCompatActivity {
         DPermission.newInstance(this).setCallback(new DPermission.DCallback() {
             @Override
             public void onResult(ArrayList<DPermission.PermissionInfo> permissionInfoList) {
-                WifiP2PHelper.getInstance(WifiP2PActivity.this).onResume();
+
             }
         }).startRequest(permissionArray);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        WifiP2PHelper.getInstance(this).onPause();
     }
 }
