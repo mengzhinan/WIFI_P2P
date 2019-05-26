@@ -161,7 +161,6 @@ public class ClientSendActivity extends BaseActivity {
 
         @Override
         public void onPeersAvailable(@NonNull Collection<WifiP2pDevice> wifiP2pDeviceList) {
-            toast("发现设备数量 " + wifiP2pDeviceList.size());
             adapter.setWifiP2pDeviceList(wifiP2pDeviceList);
         }
     };
