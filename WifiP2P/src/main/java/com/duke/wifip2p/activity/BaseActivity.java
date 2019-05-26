@@ -43,7 +43,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             @Override
             public void onResult(ArrayList<DPermission.PermissionInfo> permissionInfoList) {
                 WifiP2PHelper.getInstance(BaseActivity.this).setListener(getListener());
-                WifiP2PHelper.getInstance(BaseActivity.this).unRegisterReceiver();
+                WifiP2PHelper.getInstance(BaseActivity.this).registerReceiver();
             }
         }).startRequest(permissionArray);
     }
@@ -51,7 +51,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        WifiP2PHelper.getInstance(this).registerReceiver();
+        WifiP2PHelper.getInstance(this).unRegisterReceiver();
     }
 
     protected abstract WifiP2PListener getListener();
