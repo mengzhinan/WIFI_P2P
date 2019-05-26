@@ -47,18 +47,22 @@ public class ServerReceiveHelper extends Base {
             serverSocket = new ServerSocket(PORT);
             serverSocket.setSoTimeout(10000);
             while (!isQuit) {
-                socket = serverSocket.accept();
-                inputStream = socket.getInputStream();
-                outputStream = socket.getOutputStream();
-                //简化代码，demo
-                byte[] bytes = new byte[1024];
-                int length = inputStream.read(bytes);
-                String text = new String(bytes, 0, length, Charset.defaultCharset());
-                String response = "服务端回复：" + Build.BRAND + " - " + Build.VERSION.RELEASE;
-                outputStream.write(response.getBytes());
-                show(text);
+                try {
+                    socket = serverSocket.accept();
+                    inputStream = socket.getInputStream();
+                    outputStream = socket.getOutputStream();
+                    //简化代码，demo
+                    byte[] bytes = new byte[1024];
+                    int length = inputStream.read(bytes);
+                    String text = new String(bytes, 0, length, Charset.defaultCharset());
+                    String response = "服务端回复：" + Build.BRAND + " - " + Build.VERSION.RELEASE;
+                    outputStream.write(response.getBytes());
+                    show(text);
+                } catch (IOException e) {
+
+                }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (outputStream != null) {
