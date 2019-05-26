@@ -164,7 +164,7 @@ public class ClientSendActivity extends BaseActivity {
 
         @Override
         public void onConnectionInfoAvailable(WifiP2pInfo wifiP2pInfo) {
-            btnSendFile.setText("--");
+            btnSendFile.setText(R.string.send_text);
             adapter.setWifiP2pDeviceList(null);
             if (wifiP2pInfo != null && !TextUtils.isEmpty(wifiP2pInfo.groupOwnerAddress.getHostAddress())) {
                 btnSendFile.setEnabled(true);

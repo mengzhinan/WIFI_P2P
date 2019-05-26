@@ -91,13 +91,13 @@ public class ServerReceiveActivity extends BaseActivity {
 
         @Override
         public void onCreateGroup(boolean isSuccess) {
-            textView.setText("--");
+            textView.setText(R.string.receive_text);
             toast(isSuccess ? "创建群组成功" : "创建群组失败");
         }
 
         @Override
         public void onRemoveGroup(boolean isSuccess) {
-            textView.setText("--");
+            textView.setText(R.string.receive_text);
             toast(isSuccess ? "移除群组成功" : "移除群组失败");
         }
 
