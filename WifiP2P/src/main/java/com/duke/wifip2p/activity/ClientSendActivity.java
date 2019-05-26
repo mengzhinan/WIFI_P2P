@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -162,10 +163,18 @@ public class ClientSendActivity extends BaseActivity {
 //        }
 
         @Override
-        public void onConnectionInfoAvailable(@NonNull WifiP2pInfo wifiP2pInfo) {
-            btnSendFile.setClickable(true);
-            ip = wifiP2pInfo.groupOwnerAddress.getHostAddress();
-            toast(ip);
+        public void onConnectionInfoAvailable(WifiP2pInfo wifiP2pInfo) {
+            btnSendFile.setText("--");
+            adapter.setWifiP2pDeviceList(null);
+            if (wifiP2pInfo != null && !TextUtils.isEmpty(wifiP2pInfo.groupOwnerAddress.getHostAddress())) {
+                btnSendFile.setEnabled(true);
+                ip = wifiP2pInfo.groupOwnerAddress.getHostAddress();
+                toast("连接成功 - " + ip);
+            } else {
+                btnSendFile.setEnabled(false);
+                ip = null;
+                toast("连接失败");
+            }
         }
 
         @Override

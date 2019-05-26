@@ -90,9 +90,15 @@ public class WifiP2PBroadCastReceiver extends BroadcastReceiver {
                         if (info != null &&
                                 info.groupOwnerAddress != null) {
                             mWifiP2PListener.onConnectionInfoAvailable(info);
+                        } else {
+                            mWifiP2PListener.onConnectionInfoAvailable(null);
                         }
                     }
                 });
+            } else {
+                if (mWifiP2PListener != null) {
+                    mWifiP2PListener.onConnectionInfoAvailable(null);
+                }
             }
         } else if (WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION.equals(action)) {
             // Respond to this device's wifi state changing

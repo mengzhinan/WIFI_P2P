@@ -45,7 +45,7 @@ public interface WifiP2PListener {
      *
      * @param wifiP2pInfo
      */
-    void onConnectionInfoAvailable(@NonNull WifiP2pInfo wifiP2pInfo);
+    void onConnectionInfoAvailable(WifiP2pInfo wifiP2pInfo);
 
     /**
      * 扫描的设备结果

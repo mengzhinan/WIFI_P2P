@@ -4,6 +4,7 @@ import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -90,11 +91,13 @@ public class ServerReceiveActivity extends BaseActivity {
 
         @Override
         public void onCreateGroup(boolean isSuccess) {
+            textView.setText("--");
             toast(isSuccess ? "创建群组成功" : "创建群组失败");
         }
 
         @Override
         public void onRemoveGroup(boolean isSuccess) {
+            textView.setText("--");
             toast(isSuccess ? "移除群组成功" : "移除群组失败");
         }
 
@@ -113,10 +116,13 @@ public class ServerReceiveActivity extends BaseActivity {
 //        }
 
         @Override
-        public void onConnectionInfoAvailable(@NonNull WifiP2pInfo wifiP2pInfo) {
-            String ip = wifiP2pInfo.groupOwnerAddress.getHostAddress();
-//            toast(ip);
-            DLog.logV(ip);
+        public void onConnectionInfoAvailable(WifiP2pInfo wifiP2pInfo) {
+            if (wifiP2pInfo != null && !TextUtils.isEmpty(wifiP2pInfo.groupOwnerAddress.getHostAddress())) {
+                String ip = wifiP2pInfo.groupOwnerAddress.getHostAddress();
+                toast("连接成功 - " + ip);
+            } else {
+                toast("连接失败");
+            }
         }
 
         @Override
