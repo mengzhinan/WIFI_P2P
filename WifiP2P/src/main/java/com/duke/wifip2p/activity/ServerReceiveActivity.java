@@ -114,12 +114,15 @@ public class ServerReceiveActivity extends BaseActivity {
 
         @Override
         public void onConnectionInfoAvailable(@NonNull WifiP2pInfo wifiP2pInfo) {
-//            toast(wifiP2pInfo.groupOwnerAddress.getHostAddress());
+            String ip = wifiP2pInfo.groupOwnerAddress.getHostAddress();
+//            toast(ip);
+            DLog.logV(ip);
         }
 
         @Override
         public void onPeersAvailable(@NonNull Collection<WifiP2pDevice> wifiP2pDeviceList) {
 //            toast("发现设备数量 " + wifiP2pDeviceList.size());
+            DLog.logV("发现设备数量 " + wifiP2pDeviceList.size());
         }
     };
 }
