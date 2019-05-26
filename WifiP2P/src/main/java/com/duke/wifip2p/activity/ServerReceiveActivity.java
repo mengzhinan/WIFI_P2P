@@ -103,13 +103,6 @@ public class ServerReceiveActivity extends BaseActivity {
             DLog.logV(msg);
         }
 
-        @Override
-        public void onConnectionChanged(boolean isConnected) {
-            String msg = isConnected ? "连接成功" : "连接失败";
-//            toast(msg);
-            DLog.logV(msg);
-        }
-
 //        @Override
 //        public void onSelfDeviceAvailable(@NonNull WifiP2pDevice wifiP2pDevice) {
 //            String msg = "onSelfDeviceAvailable " + wifiP2pDevice.deviceAddress;

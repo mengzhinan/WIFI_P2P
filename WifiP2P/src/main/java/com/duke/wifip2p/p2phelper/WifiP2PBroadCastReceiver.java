@@ -80,22 +80,20 @@ public class WifiP2PBroadCastReceiver extends BroadcastReceiver {
             // 此广播 会和 WIFI_P2P_THIS_DEVICE_CHANGED_ACTION 同时回调
             // 注册广播、连接成功、连接失败 三种时机都会调用
             NetworkInfo networkInfo = intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
-            if (mWifiP2PListener != null &&
-                    networkInfo != null) {
-                mWifiP2PListener.onConnectionChanged(networkInfo.isConnected());
+            if (networkInfo != null && networkInfo.isConnected()) {
+                mManager.requestConnectionInfo(mChannel, new WifiP2pManager.ConnectionInfoListener() {
+                    @Override
+                    public void onConnectionInfoAvailable(WifiP2pInfo info) {
+                        if (mWifiP2PListener == null) {
+                            return;
+                        }
+                        if (info != null &&
+                                info.groupOwnerAddress != null) {
+                            mWifiP2PListener.onConnectionInfoAvailable(info);
+                        }
+                    }
+                });
             }
-            mManager.requestConnectionInfo(mChannel, new WifiP2pManager.ConnectionInfoListener() {
-                @Override
-                public void onConnectionInfoAvailable(WifiP2pInfo info) {
-                    if (mWifiP2PListener == null) {
-                        return;
-                    }
-                    if (info != null &&
-                            info.groupOwnerAddress != null) {
-                        mWifiP2PListener.onConnectionInfoAvailable(info);
-                    }
-                }
-            });
         } else if (WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION.equals(action)) {
             // Respond to this device's wifi state changing
             // 此设备的WiFi状态更改回调
