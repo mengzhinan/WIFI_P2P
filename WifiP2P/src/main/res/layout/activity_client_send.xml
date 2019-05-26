@@ -25,7 +25,7 @@
         android:id="@+id/btn_scan_device"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="扫描设备"
+        android:text="扫描群组"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/btn_send_file"

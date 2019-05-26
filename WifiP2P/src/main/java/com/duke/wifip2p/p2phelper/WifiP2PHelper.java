@@ -158,15 +158,7 @@ public class WifiP2PHelper {
         }
     }
 
-    public void onResume() {
-        registerReceiver();
-    }
-
-    public void onPause() {
-        unRegisterReceiver();
-    }
-
-    private void registerReceiver() {
+    public void registerReceiver() {
         if (isReceiverRegistered) {
             return;
         }
@@ -185,7 +177,7 @@ public class WifiP2PHelper {
         isReceiverRegistered = true;
     }
 
-    private void unRegisterReceiver() {
+    public void unRegisterReceiver() {
         if (!isReceiverRegistered) {
             return;
         }

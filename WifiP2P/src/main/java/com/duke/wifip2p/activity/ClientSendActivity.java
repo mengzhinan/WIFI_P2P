@@ -97,6 +97,13 @@ public class ClientSendActivity extends BaseActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // 离开组
+        WifiP2PHelper.getInstance(this).removeGroup(mWifiP2PListener);
+    }
+
+    @Override
     protected WifiP2PListener getListener() {
         return mWifiP2PListener;
     }
