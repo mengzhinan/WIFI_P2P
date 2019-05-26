@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duke.wifip2p.DLog;
 import com.duke.wifip2p.R;
 import com.duke.wifip2p.p2phelper.WifiP2PHelper;
 import com.duke.wifip2p.p2phelper.WifiP2PListener;
+import com.duke.wifip2p.sockethelper.Base;
+import com.duke.wifip2p.sockethelper.ServerReceiveHelper;
 
 import java.util.Collection;
 
@@ -20,11 +23,16 @@ public class ServerReceiveActivity extends BaseActivity {
     private Button btnCreateGroup;
     private Button btnRemoveGroup;
 
+    private TextView textView;
+
+    private ServerReceiveHelper serverReceiveHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server_receive);
 
+        textView = findViewById(R.id.textView);
         btnCreateGroup = findViewById(R.id.btn_create_group);
         btnRemoveGroup = findViewById(R.id.btn_remove_group);
         btnCreateGroup.setOnClickListener(new View.OnClickListener() {
@@ -41,11 +49,20 @@ public class ServerReceiveActivity extends BaseActivity {
         });
 
         WifiP2PHelper.getInstance(ServerReceiveActivity.this).createGroup(mWifiP2PListener);
+
+        serverReceiveHelper = new ServerReceiveHelper(new Base.OnReceiveListener() {
+            @Override
+            public void onReceived(String text) {
+                textView.setText(text);
+                toast(text);
+            }
+        });
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        serverReceiveHelper.setQuit();
         WifiP2PHelper.getInstance(ServerReceiveActivity.this).removeGroup(mWifiP2PListener);
     }
 

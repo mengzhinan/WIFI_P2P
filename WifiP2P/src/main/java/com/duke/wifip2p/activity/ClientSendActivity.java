@@ -21,6 +21,8 @@ import com.duke.wifip2p.DeviceAdapter;
 import com.duke.wifip2p.R;
 import com.duke.wifip2p.p2phelper.WifiP2PHelper;
 import com.duke.wifip2p.p2phelper.WifiP2PListener;
+import com.duke.wifip2p.sockethelper.Base;
+import com.duke.wifip2p.sockethelper.ClientSendHelper;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,6 +36,9 @@ public class ClientSendActivity extends BaseActivity {
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private DeviceAdapter adapter;
+
+    private ClientSendHelper clientSendHelper;
+    private String ip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +71,15 @@ public class ClientSendActivity extends BaseActivity {
         btnSendFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DefaultSelectorActivity.startActivityForResult(ClientSendActivity.this, false, false, 1);
+//                DefaultSelectorActivity.startActivityForResult(ClientSendActivity.this, false, false, 1);
+                clientSendHelper.postSend(ip);
+            }
+        });
+
+        clientSendHelper = new ClientSendHelper(new Base.OnReceiveListener() {
+            @Override
+            public void onReceived(String text) {
+                toast(text);
             }
         });
     }
@@ -156,7 +169,8 @@ public class ClientSendActivity extends BaseActivity {
 
         @Override
         public void onConnectionInfoAvailable(@NonNull WifiP2pInfo wifiP2pInfo) {
-            toast(wifiP2pInfo.groupOwnerAddress.getHostAddress());
+            ip = wifiP2pInfo.groupOwnerAddress.getHostAddress();
+            toast(ip);
         }
 
         @Override

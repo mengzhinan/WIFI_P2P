@@ -1,54 +1,63 @@
 package com.duke.wifip2p.sockethelper;
 
 import android.os.Build;
-import android.text.TextUtils;
 
 import com.duke.wifip2p.DExecutor;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.Charset;
 
 /**
  * @Author: duke
- * @DateTime: 2019-05-25 17:41
+ * @DateTime: 2019-05-25 17:40
  * @Description:
  */
-public class ClientSendHelper extends Base {
+public class ServerReceiveHelper extends Base {
 
-    public ClientSendHelper(OnReceiveListener onReceiveListener) {
-        super(onReceiveListener);
+    private boolean isQuit;
+
+    public void setQuit() {
+        isQuit = true;
     }
 
-    public void postSend(final String ip) {
-        if (TextUtils.isEmpty(ip)) {
-            return;
-        }
+    public ServerReceiveHelper(OnReceiveListener onReceiveListener) {
+        super(onReceiveListener);
+        postReceive();
+    }
+
+    private void postReceive() {
         DExecutor.get().execute(new Runnable() {
             @Override
             public void run() {
-                innerSend(ip);
+                innerReceive();
             }
         });
     }
 
-    private void innerSend(String ip) {
+    private void innerReceive() {
+        ServerSocket serverSocket = null;
         Socket socket = null;
         InputStream inputStream = null;
         OutputStream outputStream = null;
         try {
-            socket = new Socket(ip, PORT);
-            inputStream = socket.getInputStream();
-            outputStream = socket.getOutputStream();
-            //简化代码，demo
-            String sendMsg = "客户端发送：" + Build.BRAND + " - " + Build.VERSION.RELEASE;
-            outputStream.write(sendMsg.getBytes());
-            byte[] bytes = new byte[1024];
-            int length = inputStream.read(bytes);
-            String content = new String(bytes, 0, length, Charset.defaultCharset());
-            show(content);
+            serverSocket = new ServerSocket(PORT);
+            serverSocket.setSoTimeout(10000);
+            while (!isQuit) {
+                socket = serverSocket.accept();
+                inputStream = socket.getInputStream();
+                outputStream = socket.getOutputStream();
+                //简化代码，demo
+                byte[] bytes = new byte[1024];
+                int length = inputStream.read(bytes);
+                String text = new String(bytes, 0, length, Charset.defaultCharset());
+                String response = "服务端回复：" + Build.BRAND + " - " + Build.VERSION.RELEASE;
+                outputStream.write(response.getBytes());
+                show(text);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -84,7 +93,17 @@ public class ClientSendHelper extends Base {
                     socket = null;
                 }
             }
+            if (serverSocket != null) {
+                try {
+                    serverSocket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    serverSocket = null;
+                }
+            }
         }
     }
+
 
 }
