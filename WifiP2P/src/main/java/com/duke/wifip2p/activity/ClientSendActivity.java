@@ -163,6 +163,7 @@ public class ClientSendActivity extends BaseActivity {
 
         @Override
         public void onConnectionInfoAvailable(@NonNull WifiP2pInfo wifiP2pInfo) {
+            btnSendFile.setClickable(true);
             ip = wifiP2pInfo.groupOwnerAddress.getHostAddress();
             toast(ip);
         }
