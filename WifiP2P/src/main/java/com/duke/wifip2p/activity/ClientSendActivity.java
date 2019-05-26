@@ -140,7 +140,7 @@ public class ClientSendActivity extends BaseActivity {
 
         @Override
         public void onCreateGroup(boolean isSuccess) {
-            toast(isSuccess ? "创建群组成功" : "创建群组失败");
+            DLog.logV(isSuccess ? "创建群组成功" : "创建群组失败");
         }
 
         @Override

@@ -86,7 +86,7 @@ public class ServerReceiveActivity extends BaseActivity {
 
         @Override
         public void onWifiP2pEnabled(boolean isEnabled) {
-            toast(isEnabled ? "wifi p2p 可用" : "wifi p2p 不可用");
+            DLog.logV(isEnabled ? "wifi p2p 可用" : "wifi p2p 不可用");
         }
 
         @Override
@@ -119,9 +119,9 @@ public class ServerReceiveActivity extends BaseActivity {
         public void onConnectionInfoAvailable(WifiP2pInfo wifiP2pInfo) {
             if (wifiP2pInfo != null && !TextUtils.isEmpty(wifiP2pInfo.groupOwnerAddress.getHostAddress())) {
                 String ip = wifiP2pInfo.groupOwnerAddress.getHostAddress();
-                toast("连接成功 - " + ip);
+                DLog.logV("连接成功 - " + ip);
             } else {
-                toast("连接失败");
+                DLog.logV("连接失败");
             }
         }
 
