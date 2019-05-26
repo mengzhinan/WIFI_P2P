@@ -77,6 +77,8 @@ public class WifiP2PBroadCastReceiver extends BroadcastReceiver {
         } else if (WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION.equals(action)) {
             // Respond to new connection or disconnections
             // 链接状态变化回调
+            // 此广播 会和 WIFI_P2P_THIS_DEVICE_CHANGED_ACTION 同时回调
+            // 注册广播、连接成功、连接失败 三种时机都会调用
             NetworkInfo networkInfo = intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
             if (mWifiP2PListener != null &&
                     networkInfo != null) {
@@ -91,19 +93,19 @@ public class WifiP2PBroadCastReceiver extends BroadcastReceiver {
                     if (info != null &&
                             info.groupOwnerAddress != null) {
                         mWifiP2PListener.onConnectionInfoAvailable(info);
-                    } else {
-                        mWifiP2PListener.onConnectionChanged(false);
                     }
                 }
             });
         } else if (WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION.equals(action)) {
             // Respond to this device's wifi state changing
             // 此设备的WiFi状态更改回调
+            // 此广播 会和 WIFI_P2P_CONNECTION_CHANGED_ACTION 同时回调
+            // 注册广播、连接成功、连接失败 三种时机都会调用
             WifiP2pDevice wifiP2pDevice = intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE);
             if (mWifiP2PListener != null &&
                     wifiP2pDevice != null &&
                     wifiP2pDevice.deviceAddress != null) {
-                mWifiP2PListener.onSelfDeviceAvailable(wifiP2pDevice);
+//                mWifiP2PListener.onSelfDeviceAvailable(wifiP2pDevice);
             }
         }
     }

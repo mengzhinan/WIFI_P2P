@@ -110,14 +110,14 @@ public class WifiP2PHelper {
             @Override
             public void onSuccess() {
                 if (wifiP2PListener != null) {
-                    wifiP2PListener.onConnectionChanged(true);
+                    wifiP2PListener.onConnectCallChanged(true);
                 }
             }
 
             @Override
             public void onFailure(int reason) {
                 if (wifiP2PListener != null) {
-                    wifiP2PListener.onConnectionChanged(false);
+                    wifiP2PListener.onConnectCallChanged(false);
                 }
             }
         });

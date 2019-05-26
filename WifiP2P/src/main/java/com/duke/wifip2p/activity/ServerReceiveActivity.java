@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.duke.wifip2p.DLog;
 import com.duke.wifip2p.R;
 import com.duke.wifip2p.p2phelper.WifiP2PHelper;
 import com.duke.wifip2p.p2phelper.WifiP2PListener;
@@ -79,9 +80,25 @@ public class ServerReceiveActivity extends BaseActivity {
         }
 
         @Override
-        public void onConnectionChanged(boolean isConnected) {
-            toast(isConnected ? "连接成功" : "连接失败");
+        public void onConnectCallChanged(boolean isConnected) {
+            String msg = isConnected ? "调用连接成功" : "调用连接失败";
+            toast(msg);
+            DLog.logV(msg);
         }
+
+        @Override
+        public void onConnectionChanged(boolean isConnected) {
+            String msg = isConnected ? "连接成功" : "连接失败";
+            toast(msg);
+            DLog.logV(msg);
+        }
+
+//        @Override
+//        public void onSelfDeviceAvailable(@NonNull WifiP2pDevice wifiP2pDevice) {
+//            String msg = "onSelfDeviceAvailable " + wifiP2pDevice.deviceAddress;
+//            toast(msg);
+//            DLog.logV(msg);
+//        }
 
         @Override
         public void onConnectionInfoAvailable(@NonNull WifiP2pInfo wifiP2pInfo) {
@@ -91,11 +108,6 @@ public class ServerReceiveActivity extends BaseActivity {
         @Override
         public void onPeersAvailable(@NonNull Collection<WifiP2pDevice> wifiP2pDeviceList) {
             toast("发现设备数量 " + wifiP2pDeviceList.size());
-        }
-
-        @Override
-        public void onSelfDeviceAvailable(@NonNull WifiP2pDevice wifiP2pDevice) {
-            toast("onSelfDeviceAvailable " + wifiP2pDevice.deviceAddress);
         }
     };
 }
