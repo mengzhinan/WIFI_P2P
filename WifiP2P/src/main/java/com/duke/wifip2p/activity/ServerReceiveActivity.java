@@ -78,7 +78,7 @@ public class ServerReceiveActivity extends BaseActivity {
     private WifiP2PListener mWifiP2PListener = new WifiP2PListener() {
         @Override
         public void onDiscoverPeers(boolean isSuccess) {
-            toast(isSuccess ? "扫描设备成功" : "扫描设备失败");
+//            toast(isSuccess ? "扫描设备成功" : "扫描设备失败");
         }
 
         @Override
@@ -99,14 +99,14 @@ public class ServerReceiveActivity extends BaseActivity {
         @Override
         public void onConnectCallChanged(boolean isConnected) {
             String msg = isConnected ? "调用连接成功" : "调用连接失败";
-            toast(msg);
+//            toast(msg);
             DLog.logV(msg);
         }
 
         @Override
         public void onConnectionChanged(boolean isConnected) {
             String msg = isConnected ? "连接成功" : "连接失败";
-            toast(msg);
+//            toast(msg);
             DLog.logV(msg);
         }
 
@@ -119,12 +119,12 @@ public class ServerReceiveActivity extends BaseActivity {
 
         @Override
         public void onConnectionInfoAvailable(@NonNull WifiP2pInfo wifiP2pInfo) {
-            toast(wifiP2pInfo.groupOwnerAddress.getHostAddress());
+//            toast(wifiP2pInfo.groupOwnerAddress.getHostAddress());
         }
 
         @Override
         public void onPeersAvailable(@NonNull Collection<WifiP2pDevice> wifiP2pDeviceList) {
-            toast("发现设备数量 " + wifiP2pDeviceList.size());
+//            toast("发现设备数量 " + wifiP2pDeviceList.size());
         }
     };
 }
