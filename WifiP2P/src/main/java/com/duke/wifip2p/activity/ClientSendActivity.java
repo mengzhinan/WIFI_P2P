@@ -165,13 +165,13 @@ public class ClientSendActivity extends BaseActivity {
         @Override
         public void onConnectionInfoAvailable(WifiP2pInfo wifiP2pInfo) {
             btnSendFile.setText(R.string.send_text);
-            adapter.setWifiP2pDeviceList(null);
             if (wifiP2pInfo != null && !TextUtils.isEmpty(wifiP2pInfo.groupOwnerAddress.getHostAddress())) {
                 btnSendFile.setEnabled(true);
                 ip = wifiP2pInfo.groupOwnerAddress.getHostAddress();
                 toast("连接成功 - " + ip);
             } else {
                 btnSendFile.setEnabled(false);
+                adapter.setWifiP2pDeviceList(null);
                 ip = null;
                 toast("连接失败");
             }
