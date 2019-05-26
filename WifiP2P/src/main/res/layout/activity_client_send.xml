@@ -23,7 +23,7 @@
 
     <Button
         android:id="@+id/btn_scan_device"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="扫描群组"
         app:layout_constraintBottom_toBottomOf="parent"

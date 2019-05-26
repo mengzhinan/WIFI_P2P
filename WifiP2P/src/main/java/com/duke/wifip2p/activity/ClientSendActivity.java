@@ -79,6 +79,7 @@ public class ClientSendActivity extends BaseActivity {
         clientSendHelper = new ClientSendHelper(new Base.OnReceiveListener() {
             @Override
             public void onReceived(String text) {
+                btnSendFile.setText(text);
                 toast(text);
             }
         });
